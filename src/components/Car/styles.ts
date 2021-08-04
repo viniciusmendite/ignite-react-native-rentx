@@ -36,7 +36,7 @@ export const About = styled.View`
 export const Rent = styled.View`
   margin-right: 24px;
 `;
- 
+
 export const Period = styled.Text`
   color: ${({ theme }) => theme.colors.text_detail};
   font-size: ${RFValue(10)}px;
