@@ -1,5 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
@@ -31,6 +32,12 @@ import {
 } from './styles';
 
 export function CardDetails() {
+  const navigation = useNavigation();
+
+  function handleConfirmRental() {
+    navigation.navigate('Scheduling')
+  }
+
   return (
     <Container>
       <StatusBar barStyle="dark-content" translucent backgroundColor="transparent" />
@@ -72,7 +79,7 @@ export function CardDetails() {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button title="Escolher período do aluguel" onPress={handleConfirmRental} />
       </Footer>
     </Container>
   );
