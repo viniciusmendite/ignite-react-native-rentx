@@ -19,7 +19,7 @@ import {
 } from './styles';
 
 export function Home() {
-  const [cars, setCars] = useState<ICarDTO[]>();
+  const [cars, setCars] = useState<ICarDTO[]>([]);
 
   const [loading, setLoading] = useState(true);
 

@@ -37,7 +37,7 @@ export function CardDetails() {
   const { car } = route.params as IParams;
 
   function handleConfirmRental() {
-    navigation.navigate('Scheduling')
+    navigation.navigate('Scheduling', { car })
   }
 
   return (
