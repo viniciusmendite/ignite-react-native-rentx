@@ -11,7 +11,7 @@ export interface ICarDTO {
   thumbnail: string;
   accessories: {
     type: string;
-    name: number;
+    name: string;
   }[];
   photos: string[];
 }
