@@ -71,14 +71,21 @@ export function SchedulingDetails() {
   }, [])
 
   async function handleConfirmRental() {
-    const schedulesByCar = await api.get(`schedules/${car.id}`);
+    const schedulesByCar = await api.get(`schedules_bycars/${car.id}`);
 
     const unavailable_dates = [
       ...schedulesByCar.data.unavailable_dates,
       ...dates
     ];
 
-    api.put(`schedules/${car.id}`, {
+    await api.post('schedules_byuser', {
+      user_id: 1,
+      car,
+      startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+      endDate: format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy')
+    });
+
+    api.put(`schedules_bycars/${car.id}`, {
       id: car.id,
       unavailable_dates,
     })

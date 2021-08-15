@@ -82,7 +82,7 @@ export function Scheduling() {
     <Container>
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
       <Header>
-        <BackButton color={theme.colors.shape} onPress={() => { }} />
+        <BackButton color={theme.colors.shape} />
         <Title>
           Escolha uma {'\n'}
           data de início e {'\n'}
