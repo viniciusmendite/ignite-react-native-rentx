@@ -29,6 +29,8 @@ interface ICarProps {
   id: string;
   user_id: string;
   car: ICarDTO;
+  startDate: string;
+  endDate: string;
 }
 
 export function MyCars() {
@@ -42,7 +44,6 @@ export function MyCars() {
       try {
         const { data } = await api.get('schedules_byuser?user_id=1');
         setCars(data)
-        console.log(data)
       } catch (error) {
         console.log(error);
       } finally {
@@ -67,12 +68,12 @@ export function MyCars() {
         </Subtitle>
       </Header>
 
-      <Content>
-        <Appointments>
-          <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
-          <AppointmentsQuantity>05</AppointmentsQuantity>
-        </Appointments>
-        {loading ? <Load /> :
+      {loading ? <Load /> :
+        <Content>
+          <Appointments>
+            <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
+            <AppointmentsQuantity>{cars.length}</AppointmentsQuantity>
+          </Appointments>
           <FlatList
             data={cars}
             keyExtractor={item => String(item.id)}
@@ -83,21 +84,21 @@ export function MyCars() {
                 <CarFooter>
                   <CarFooterTitle>Período</CarFooterTitle>
                   <CarFooterPeriod>
-                    <CarFooterDate>18/05/2018</CarFooterDate>
+                    <CarFooterDate>{item.startDate}</CarFooterDate>
                     <AntDesign
                       name="arrowright"
                       size={20}
                       color={theme.colors.title}
                       style={{ marginHorizontal: 10 }}
                     />
-                    <CarFooterDate>18/06/2018</CarFooterDate>
+                    <CarFooterDate>{item.endDate}</CarFooterDate>
                   </CarFooterPeriod>
                 </CarFooter>
               </CarWrapper>
             )}
           />
-        }
-      </Content>
+        </Content>
+      }
     </Container>
   );
 }
