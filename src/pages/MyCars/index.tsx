@@ -3,6 +3,7 @@ import { StatusBar, FlatList } from 'react-native';
 import { useTheme } from 'styled-components';
 import { AntDesign } from '@expo/vector-icons';
 
+import { Load } from '../../components/Load';
 import { BackButton } from '../../components/BackButton';
 import { Car } from '../../components/Car';
 import { ICarDTO } from '../../dtos/CarDTO';
@@ -23,7 +24,6 @@ import {
   CarFooterPeriod,
   CarFooterDate,
 } from './styles';
-import { Load } from '../../components/Load';
 
 interface ICarProps {
   id: string;
