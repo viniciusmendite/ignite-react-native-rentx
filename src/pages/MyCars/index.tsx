@@ -3,7 +3,7 @@ import { StatusBar, FlatList } from 'react-native';
 import { useTheme } from 'styled-components';
 import { AntDesign } from '@expo/vector-icons';
 
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 import { BackButton } from '../../components/BackButton';
 import { Car } from '../../components/Car';
 import { ICarDTO } from '../../dtos/CarDTO';
@@ -68,7 +68,7 @@ export function MyCars() {
         </Subtitle>
       </Header>
 
-      {loading ? <Load /> :
+      {loading ? <LoadAnimation /> :
         <Content>
           <Appointments>
             <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
