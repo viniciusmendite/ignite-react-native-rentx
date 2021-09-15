@@ -4,10 +4,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Home } from '../pages/Home';
 import { CardDetails } from '../pages/CardDetails';
 import { Scheduling } from '../pages/Scheduling';
-import { SchedulingComplete } from '../pages/SchedulingComplete';
+import { Confirmation } from '../pages/Confirmation';
 import { SchedulingDetails } from '../pages/SchedulingDetails';
 import { MyCars } from '../pages/MyCars';
 import { SignIn } from '../pages/SignIn';
+import { SignUpFirstStep } from '../pages/SignUp/SignUpFirstStep';
+import { SignUpSecondStep } from '../pages/SignUp/SignUpSecondStep';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -17,6 +19,14 @@ export function StackRoutes() {
       <Screen
         name="SignIn"
         component={SignIn}
+      />
+      <Screen
+        name="SignUpFirstStep"
+        component={SignUpFirstStep}
+      />
+      <Screen
+        name="SignUpSecondStep"
+        component={SignUpSecondStep}
       />
       <Screen
         name="Home"
@@ -34,8 +44,8 @@ export function StackRoutes() {
         component={Scheduling}
       />
       <Screen
-        name="SchedulingComplete"
-        component={SchedulingComplete}
+        name="Confirmation"
+        component={Confirmation}
       />
       <Screen
         name="SchedulingDetails"

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { useTheme } from 'styled-components';
 import * as Yup from 'yup';
+import { useNavigation } from '@react-navigation/native';
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -27,6 +28,7 @@ export function SignIn() {
   const [password, setPassword] = useState('');
 
   const theme = useTheme();
+  const navigation = useNavigation();
 
   async function handleSignIn() {
     try {
@@ -44,6 +46,10 @@ export function SignIn() {
           'Ocorreu um erro ao fazer login, verifique as credenciais')
       }
     }
+  }
+
+  function handleNewAccount() {
+    navigation.navigate('SignUpFirstStep')
   }
 
   return (
@@ -94,7 +100,7 @@ export function SignIn() {
             />
             <Button
               title="Criar conta gratuita"
-              onPress={() => { }}
+              onPress={handleNewAccount}
               enabled
               light
               loading={false}
