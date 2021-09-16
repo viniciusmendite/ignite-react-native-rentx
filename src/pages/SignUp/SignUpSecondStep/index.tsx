@@ -17,6 +17,7 @@ import {
   Form,
   FormTitle
 } from './styles';
+import api from '../../../services/api';
 
 interface IParams {
   user: {
@@ -34,9 +35,9 @@ export function SignUpSecondStep() {
   const route = useRoute();
   const navigation = useNavigation();
 
-  const { user } = route.params as IParams;
+  const { user: { name, email, driverLicense } } = route.params as IParams;
 
-  function handleRegister() {
+  async function handleRegister() {
     if (!password || !passwordConfirm) {
       return Alert.alert('Informe a senha e a confirmação')
     }
@@ -45,11 +46,22 @@ export function SignUpSecondStep() {
       return Alert.alert('As senhas não são iguais')
     }
 
-    navigation.navigate('Confirm', {
-      nextScreenRoute: 'SignIn',
-      title: 'Conta Criada',
-      message: 'Agora é só fazer login\ne aproveitar'
-    });
+    await api.post('/users', {
+      name,
+      email,
+      driver_license: driverLicense,
+      password,
+    })
+      .then(() => {
+        navigation.navigate('Confirmation', {
+          nextScreenRoute: 'SignIn',
+          title: 'Conta Criada',
+          message: 'Agora é só fazer login\ne aproveitar'
+        });
+      })
+      .catch(() => {
+        Alert.alert('Opa', 'Não foi possível cadastrar')
+      });
   }
 
   return (
