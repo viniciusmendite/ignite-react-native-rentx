@@ -64,18 +64,29 @@ export function Home() {
   const theme = useTheme();
 
   useEffect(() => {
+    let isMounted = true;
+
     async function fetchCars() {
       try {
         const { data } = await api.get('cars');
-        setCars(data);
+
+        if (isMounted) {
+          setCars(data);
+        }
       } catch (err) {
         console.log(err);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     fetchCars();
+
+    return () => {
+      isMounted = false;
+    }
   }, []);
 
   function handleCarDetails(car: ICarDTO) {
