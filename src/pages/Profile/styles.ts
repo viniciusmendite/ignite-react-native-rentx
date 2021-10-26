@@ -1,10 +1,13 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
+interface IOption {
+  active: boolean;
+}
+
 export const Container = styled.View`
-  flex: 1;
   background-color: ${({ theme }) => theme.colors.background_primary};
 `;
 
@@ -57,3 +60,36 @@ export const PhotoButton = styled(RectButton)`
   bottom: 10px;
   right: 10px;
 `;
+
+export const Content = styled.View`
+  padding: 0 24px;
+  margin-top: 122px;
+`;
+
+export const Options = styled.View`
+  border-bottom-width: 1px;
+  border-bottom-color: ${({ theme }) => theme.colors.line};
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 24px;
+`;
+
+export const Option = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7
+}) <IOption>`
+  padding-bottom: 14px;
+
+  ${({ active, theme }) => active && css`
+    border-bottom-width: 3px;
+    border-bottom-color: ${theme.colors.main};
+  `}
+`;
+
+export const OptionTitle = styled.Text<IOption>`
+  font-size: ${RFValue(20)}px;
+  font-family: ${({ active, theme }) => active ? theme.fonts.secondary_600 : theme.fonts.secondary_500};
+  color: ${({ active, theme }) => active ? theme.colors.header : theme.colors.text_detail};
+`;
+
+export const Section = styled.View``;
+

@@ -25,7 +25,7 @@ export function Input({ iconName, value, ...rest }: IInputProps) {
   }
 
   return (
-    <Container >
+    <Container>
       <IconContainer isFocused={isFocused}>
         <Feather
           name={iconName}
