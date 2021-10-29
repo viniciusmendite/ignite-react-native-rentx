@@ -48,7 +48,6 @@ export function CardDetails() {
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler(event => {
     scrollY.value = event.contentOffset.y;
-    console.log(event.contentOffset.y);
   });
 
   const headerStyleAnimation = useAnimatedStyle(() => {

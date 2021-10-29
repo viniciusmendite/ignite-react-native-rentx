@@ -89,7 +89,6 @@ export function Profile(): JSX.Element {
 
       Alert.alert('Perfil atualizado!');
     } catch (error) {
-      console.log(error)
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Opa', error.message);
       } else {

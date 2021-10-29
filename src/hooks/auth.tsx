@@ -104,9 +104,9 @@ function AuthProvider({ children }: IAuthProvider) {
 
   async function updateUser(user: IUser) {
     try {
-      const userCollectioon = database.get<ModelUser>('users');
+      const userCollection = database.get<ModelUser>('users');
       await database.write(async () => {
-        const userSelected = await userCollectioon.find(user.id);
+        const userSelected = await userCollection.find(user.id);
         await userSelected.update((userData) => {
           userData.name = user.name;
           userData.driver_license = user.driver_license,
