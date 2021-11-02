@@ -11,11 +11,15 @@ import Animated, {
   useAnimatedGestureHandler,
   withSpring
 } from 'react-native-reanimated';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { synchronize } from '@nozbe/watermelondb/sync';
+import { database } from '../../database';
 
 const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
 import api from '../../services/api';
-import { ICarDTO } from '../../dtos/CarDTO';
+
+import { Car as ModelCar } from '../../database/model/Car';
 
 import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
@@ -30,7 +34,7 @@ import {
 } from './styles';
 
 export function Home() {
-  const [cars, setCars] = useState<ICarDTO[]>([]);
+  const [cars, setCars] = useState<ModelCar[]>([]);
   const [loading, setLoading] = useState(true);
 
   const positionX = useSharedValue(0);
@@ -62,16 +66,18 @@ export function Home() {
 
   const navigation = useNavigation();
   const theme = useTheme();
+  const netInfo = useNetInfo();
 
   useEffect(() => {
     let isMounted = true;
 
     async function fetchCars() {
       try {
-        const { data } = await api.get('cars');
+        const carCollection = database.get<ModelCar>('cars');
+        const cars = await carCollection.query().fetch();
 
         if (isMounted) {
-          setCars(data);
+          setCars(cars);
         }
       } catch (err) {
         console.log(err);
@@ -89,7 +95,33 @@ export function Home() {
     }
   }, []);
 
-  function handleCarDetails(car: ICarDTO) {
+
+  async function offlineSynchronize() {
+    await synchronize({
+      database,
+      pullChanges: async ({ lastPulledAt }) => {
+        const response = await api
+          .get(`cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`);
+
+        const { changes, latestVersion } = response.data;
+        console.log('#### esta aqui #####')
+        console.log(changes)
+        return { changes, timestamp: latestVersion }
+      },
+      pushChanges: async ({ changes }) => {
+        const user = changes.users;
+        await api.post('/users/sync', user);
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (netInfo.isConnected === true) {
+      offlineSynchronize();
+    }
+  }, [netInfo.isConnected]);
+
+  function handleCarDetails(car: ModelCar) {
     navigation.navigate('CarDetails', { car })
   }
 

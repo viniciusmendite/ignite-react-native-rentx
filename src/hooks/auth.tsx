@@ -30,6 +30,7 @@ interface IAuthContentData {
   signIn: (credentials: ISignInCredentials) => Promise<void>;
   signOut: () => Promise<void>;
   updateUser: (user: IUser) => Promise<void>
+  loading: boolean;
 }
 
 interface IAuthProvider {
@@ -40,6 +41,7 @@ const AuthContext = createContext({} as IAuthContentData);
 
 function AuthProvider({ children }: IAuthProvider) {
   const [data, setData] = useState<IUser>({} as IUser);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadUserData() {
@@ -50,6 +52,7 @@ function AuthProvider({ children }: IAuthProvider) {
         const userData = response[0]._raw as unknown as IUser;
         api.defaults.headers.authorization = `Bearer ${userData.token}`;
         setData(userData);
+        setLoading(false);
       }
     }
 
@@ -121,7 +124,7 @@ function AuthProvider({ children }: IAuthProvider) {
   }
 
   return (
-    <AuthContext.Provider value={{ signIn, user: data, signOut, updateUser }}>
+    <AuthContext.Provider value={{ signIn, user: data, signOut, updateUser, loading }}>
       {children}
     </AuthContext.Provider>
   );
