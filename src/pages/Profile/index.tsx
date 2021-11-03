@@ -7,6 +7,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import * as ImagePicker from 'expo-image-picker';
 import * as Yup from 'yup';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 import { BackButton } from '../../components/BackButton';
 import { Input } from '../../components/Input';
@@ -39,6 +40,7 @@ export function Profile(): JSX.Element {
   const [name, setName] = useState(user.name);
   const [driverLicense, setDriverLicense] = useState(user.driver_license);
 
+  const netInfo = useNetInfo();
   const theme = useTheme();
   const navigation = useNavigation();
 
@@ -47,7 +49,11 @@ export function Profile(): JSX.Element {
   }
 
   function handleOptionChange(optionSelected: 'dataEdit' | 'passwordEdit') {
-    setOption(optionSelected)
+    if (netInfo.isConnected === false && optionSelected === 'passwordEdit') {
+      Alert.alert('Você está offline', 'Para mudar a senha, conecte-se a Internet.');
+    } else {
+      setOption(optionSelected)
+    }
   }
 
   async function handleSelectAvatar() {
